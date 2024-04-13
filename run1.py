@@ -4,8 +4,8 @@ import numpy as np
 import pickle
 import base64
 
-
-
+np.bool = np.bool_
+np.object = object
 
 def get_fvalue(val):
     feature_dict = {"No":1,"Yes":2}

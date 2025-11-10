@@ -1,9 +1,20 @@
 import streamlit as st
-from langchain.llms import OpenAI
+
+from langchain_openai import OpenAI, OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
+
+# Example usage
+llm = OpenAI(temperature=0)
+embeddings = OpenAIEmbeddings()
+
+text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=Chroma(persist_directory="db", embedding_function=embeddings).as_retriever()
+)
+
 
 def generate_response(uploaded_file, openai_api_key, query_text):
     # Load document if file is uploaded
